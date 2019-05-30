@@ -17,5 +17,4 @@ repositories {
 dependencies {
     compile('org.bitbucket.b_c:jose4j:0.6.5')
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

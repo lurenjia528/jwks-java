@@ -1,0 +1,4 @@
+jwt:
+  issuer: testing@secure.istio.io
+  subject: testing@secure.istio.io
+

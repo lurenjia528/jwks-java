@@ -13,6 +13,7 @@ import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
 import org.jose4j.lang.JoseException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +26,12 @@ import java.util.UUID;
  */
 @RestController
 public class JoseController {
+
+    @Value("${jwt.issuer}")
+    private String issuer;
+
+    @Value("${jwt.subject}")
+    private String subject;
 
     RsaJsonWebKey rsaJsonWebKey;
 
@@ -51,10 +58,10 @@ public class JoseController {
 
         // 设置body部分
         JwtClaims claims = new JwtClaims();
-        claims.setIssuer("testing@secure.istio.io");
+        claims.setIssuer(issuer);
         claims.setExpirationTime(NumericDate.fromSeconds(4685989700L));
         claims.setIssuedAt(NumericDate.fromSeconds(1532389700L));
-        claims.setSubject("testing@secure.istio.io");
+        claims.setSubject(subject);
 //        claims.setClaim("email","mail@example.com");
 //        List<String> groups = Arrays.asList("group-one", "other-group", "group-three");
 //        claims.setStringListClaim("groups", groups);
@@ -91,7 +98,7 @@ public class JoseController {
                 .setRequireExpirationTime() // jwt 必须有过期时间
                 .setAllowedClockSkewInSeconds(30) // allow some leeway in validating time based claims to account for clock skew
                 .setRequireSubject() // the JWT must have a subject claim
-                .setExpectedIssuer("testing@secure.istio.io") // whom the JWT needs to have been issued by
+                .setExpectedIssuer(issuer) // whom the JWT needs to have been issued by
 //                .setExpectedAudience("Audience") // to whom the JWT is intended for
                 .setVerificationKey(rsaJsonWebKey.getKey()) // verify the signature with the public key
                 .setJwsAlgorithmConstraints( // only allow the expected signature algorithm(s) in the given context
@@ -123,7 +130,5 @@ public class JoseController {
                 }
             }
         }
-
-
     }
 }
