@@ -1,4 +1,6 @@
 jwt:
-  issuer: testing@secure.istio.io
-  subject: testing@secure.istio.io
+  issuer: ygt
+  subject: ygt
+  # 5y(1year=365days) 7d 8h 9m 10s
+  expirationTime: 100y
 
